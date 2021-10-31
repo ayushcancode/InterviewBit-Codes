@@ -1,0 +1,39 @@
+//https://www.interviewbit.com/problems/largest-rectangle-in-histogram/
+
+int Solution::largestRectangleArea(vector<int> &a) {
+    
+    stack<int> s;
+    int n = (int)a.size();
+    //if(n == 1) return a[0];
+    vector<int> ans(n);
+    for(int i = 0;i<n;i++)
+    {
+        while(!s.empty() && a[s.top()] >= a[i]) s.pop();
+        
+        if(s.empty()) ans[i] = -1;
+        else ans[i] = s.top();
+        s.push(i);
+    }
+   // for(int i =0;i<n;i++) if(a[i] == 32)cout<<ans[i]<<" ";
+    //cout<<'\n';
+    while(!s.empty()) s.pop();
+    int mx = -1;
+    for(int i = n-1;i>=0;i--)
+    {
+        //cout<<a[i]<<'\n';
+        while(!s.empty() && a[s.top()] >= a[i])
+        {
+            //cout<<a[s.top()]<<'\n';
+            s.pop();
+        }
+        //cout<<'\n';
+        if(s.empty()) ans[i] = n - ans[i] - 1;
+        else ans[i] = s.top() - ans[i] - 1;
+        mx = max(ans[i] * a[i],mx);
+        s.push(i);
+    }
+    
+    //for(int i =0;i<n;i++) if(a[i] == 32)cout<<ans[i]<<" ";
+    //cout<<'\n';
+    return mx;
+}
