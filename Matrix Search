@@ -1,0 +1,46 @@
+//https://www.interviewbit.com/problems/matrix-search/
+
+int Solution::searchMatrix(vector<vector<int> > &a, int b) {
+    
+    int n = (int)a.size();
+    int m = (int)a[0].size();
+    if(b > a[n-1][m-1]) return 0;
+    if(b < a[0][0]) return 0;
+    int lo = 0;
+    int hi = n-1;
+    int ans = -1;
+    while(lo <= hi)
+    {
+        int mid = (lo + hi) >> 1;
+        if(a[mid][0] <= b)
+        {
+            ans = mid;
+            lo = mid+1;
+        }
+        else
+        {
+            hi = mid-1;
+        }
+    }
+    
+    lo = 0;
+    hi = m-1;
+    
+    while(lo <= hi)
+    {
+        int mid = (lo + hi) >> 1;
+        if(a[ans][mid] == b)
+        {
+            return 1;
+        }
+        if(a[ans][mid] < b)
+        {
+            lo = mid+1;
+        }
+        else
+        {
+            hi = mid-1;
+        }
+    }
+    return 0;
+}
